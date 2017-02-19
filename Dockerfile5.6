@@ -56,7 +56,6 @@ RUN apt-get install -y \
         libz-dev \
         git \
     && cd /root \
-    && git clone -b php7 https://github.com/php-memcached-dev/php-memcachedbak \
 	&& wget -O "memcached-2.2.0" https://codeload.github.com/php-memcached-dev/php-memcached/tar.gz/2.2.0 \
 	&& tar zxvf  memcached-2.2.0 \
 	&& mv php-memcached-2.2.0 php-memcached
