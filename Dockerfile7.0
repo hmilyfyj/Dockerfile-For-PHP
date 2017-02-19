@@ -28,7 +28,7 @@ RUN apt-get update \
         mysqli \
         zip \
         gd \
-        opcache
+        opcache \
 RUN echo "===> Installing python, sudo, and supporting tools..."  && \
     apt-get install --fix-missing          && \
     DEBIAN_FRONTEND=noninteractive         \
@@ -45,8 +45,6 @@ RUN echo "===> Installing python, sudo, and supporting tools..."  && \
     \
     echo "===> Installing handy tools (not absolutely required)..."  && \
     apt-get install -y sshpass openssh-client
-# default command: display Ansible version
-# CMD [ "ansible-playbook", "--version" ]
 RUN apt-get install -y \
         libmemcached11 \
         libmemcachedutil2 \
