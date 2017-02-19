@@ -19,10 +19,10 @@ RUN apt-get update \
     openssh-client \
     ansible \
 	supervisor \
-	&& pear clear-cache \
     && pear update-channels \
 	&& pear upgrade \
 	&& docker-php-ext-install \
+	&& pear clear-cache \
         mcrypt \
         mbstring \
         pdo_mysql \
@@ -81,6 +81,6 @@ RUN curl -sS https://getcomposer.org/installer | php \
 	&& ssh-keygen -t rsa -N '' -f ~/.ssh/id_rsa -q -b 2048 \
 	&& cat ~/.ssh/id_rsa \
 	&& ssh-keyscan coding.net >> /root/.ssh/known_hosts && ssh-keyscan github.com >> /root/.ssh/known_hosts && ssh-keyscan 121.40.40.157 >> /root/.ssh/known_hosts && ssh-keyscan -p 10022 121.40.40.157 >> /root/.ssh/known_hosts
-ADD ./php.ini-production /usr/local/etc/php/php.ini
+ADD php.ini-production /usr/local/etc/php/php.ini
 #RUN cd /usr/share/nginx/html && composer install --prefer-dist --no-dev --optimize-autoloader -vvvv
 CMD ["php-fpm"]
