@@ -3,7 +3,7 @@ FROM php:5.6-fpm
 MAINTAINER fengit@outlook.com
 
 # Install modules
-# COPY ./sources.list /etc/apt/sources.list
+COPY ./sources.list /etc/apt/sources.list
 RUN apt-get update \
 	&& apt-get install git -y \
 	vim \
