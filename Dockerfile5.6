@@ -25,6 +25,7 @@ RUN apt-get update \
     && pear update-channels \
 	&& pear upgrade \
 	&& pear clear-cache \
+	&& pecl install memcached-2.2.0 \
 	&& docker-php-ext-install \
         mcrypt \
         mbstring \
@@ -33,7 +34,6 @@ RUN apt-get update \
         zip \
         gd \
         opcache \
-		memcached-2.2.0 \
 	&& docker-php-ext-enable memcached
 RUN echo "===> Installing python, sudo, and supporting tools..."  && \
     apt-get install --fix-missing          && \
