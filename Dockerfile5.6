@@ -23,9 +23,9 @@ RUN apt-get update \
     openssh-client \
     ansible \
 	supervisor \
+	&& pear clear-cache \
     && pear update-channels \
 	&& pear upgrade \
-    && pear clear-cache \
     && pecl install memcached \
 	&& docker-php-ext-install \
         mcrypt \
