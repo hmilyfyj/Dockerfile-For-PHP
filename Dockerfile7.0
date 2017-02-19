@@ -17,12 +17,11 @@ RUN apt-get update \
     libpng12-dev \
     libmemcached-dev \
     openssh-client \
-    ansible \
 	supervisor \
     && pear update-channels \
 	&& pear upgrade \
-	&& docker-php-ext-install \
 	&& pear clear-cache \
+	&& docker-php-ext-install \
         mcrypt \
         mbstring \
         pdo_mysql \
