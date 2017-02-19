@@ -32,7 +32,7 @@ RUN apt-get update \
         mysqli \
         zip \
         gd \
-        opcache \
+        opcache
 RUN echo "===> Installing python, sudo, and supporting tools..."  && \
     apt-get install --fix-missing          && \
     DEBIAN_FRONTEND=noninteractive         \
