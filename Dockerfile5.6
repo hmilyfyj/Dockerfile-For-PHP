@@ -56,7 +56,7 @@ RUN apt-get install -y \
         libz-dev \
         git \
     && cd /root \
-    && git clone -b php7 https://github.com/php-memcached-dev/php-memcached \
+    && git clone https://github.com/php-memcached-dev/php-memcached \
     && cd php-memcached \
     && phpize \
     && ./configure \
