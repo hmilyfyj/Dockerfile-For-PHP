@@ -25,7 +25,6 @@ RUN apt-get update \
     && pear update-channels \
 	&& pear upgrade \
 	&& pear clear-cache \
-	&& pecl install memcached-2.2.0 \
 	&& docker-php-ext-install \
         mcrypt \
         mbstring \
@@ -34,7 +33,6 @@ RUN apt-get update \
         zip \
         gd \
         opcache \
-	&& docker-php-ext-enable memcached
 RUN echo "===> Installing python, sudo, and supporting tools..."  && \
     apt-get install --fix-missing          && \
     DEBIAN_FRONTEND=noninteractive         \
@@ -51,6 +49,32 @@ RUN echo "===> Installing python, sudo, and supporting tools..."  && \
     \
     echo "===> Installing handy tools (not absolutely required)..."  && \
     apt-get install -y sshpass openssh-client
+RUN apt-get install -y \
+        libmemcached11 \
+        libmemcachedutil2 \
+        libmemcached-dev \
+        libz-dev \
+        git \
+    && cd /root \
+    && git clone -b php7 https://github.com/php-memcached-dev/php-memcachedbak \
+	&& wget -O "memcached-2.2.0" https://codeload.github.com/php-memcached-dev/php-memcached/tar.gz/2.2.0 \
+	&& tar zxvf  memcached-2.2.0 \
+	&& mv php-memcached-2.2.0 php-memcached
+    && cd php-memcached \
+    && phpize \
+    && ./configure \
+    && make \
+    && make install \
+    && cd .. \
+    && rm -rf  php-memcached \
+    && echo extension=memcached.so >> /usr/local/etc/php/conf.d/memcached.ini \
+    && apt-get remove -y build-essential libmemcached-dev libz-dev \
+    && apt-get remove -y \
+        libmemcached-dev \
+        libz-dev \
+    && apt-get autoremove -y \
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get clean
 RUN curl -sS https://getcomposer.org/installer | php \
 	&& mv composer.phar /usr/local/bin/composer \
 	&& composer config -g repo.packagist composer https://packagist.phpcomposer.com \
