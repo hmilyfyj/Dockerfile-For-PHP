@@ -16,6 +16,10 @@ RUN apt-get update \
     libmcrypt-dev \
     libpng12-dev \
     libmemcached-dev \
+    libmemcached11 \
+    libmemcachedutil2 \
+    libmemcached-dev \
+    libz-dev \
     openssh-client \
 	supervisor \
     && pear update-channels \
