@@ -21,12 +21,9 @@ RUN apt-get update \
     libz-dev \
     openssh-client \
 	supervisor \
-	libevent-dev \
     && pear update-channels \
 	&& pear upgrade \
 	&& pear clear-cache \
-	&& pecl install libevent-beta \
-	&& echo "extension=libevent.so" >> /usr/local/etc/php/conf.d/memcached.ini \
 	&& docker-php-ext-install \
         mcrypt \
         mbstring \
@@ -43,6 +40,13 @@ RUN apt-get install -y \
 		cloog-ppl \
 		libsasl2-2 \
 		libmemcached-dev \
+	&& wget https://github.com/libevent/libevent/releases/download/release-2.1.8-stable/libevent-2.1.8-stable.tar.gz \
+	&& tar -zxvf libevent-2.1.8-stable.tar.gz \
+	&& cd libevent-2.1.8-stable \
+	&& ./configure --with-php-config=/usr/local/bin/php-config --prefix=/usr/local/libevent-2.1.8 \
+	&& make \
+	&& make install \
+	&& echo "extension=libevent.so" >> /usr/local/etc/php/conf.d/memcached.ini \
     && cd /root \
 	&& wget https://launchpad.net/libmemcached/1.0/1.0.18/+download/libmemcached-1.0.18.tar.gz \
 	&& tar -zxvf libmemcached-1.0.18.tar.gz \
