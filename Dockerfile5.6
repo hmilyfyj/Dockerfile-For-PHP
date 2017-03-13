@@ -91,5 +91,6 @@ RUN curl -sS https://getcomposer.org/installer | php \
 	&& cat ~/.ssh/id_rsa \
 	&& ssh-keyscan coding.net >> /root/.ssh/known_hosts && ssh-keyscan github.com >> /root/.ssh/known_hosts && ssh-keyscan -p 10022 git.shanjing-inc.com >> /root/.ssh/known_hosts
 ADD php.ini-production /usr/local/etc/php/php.ini
+ADD php-fpm-production.conf /usr/local/etc/php-fpm.d/www.conf
 #RUN cd /usr/share/nginx/html && composer install --prefer-dist --no-dev --optimize-autoloader -vvvv
 CMD ["php-fpm"]
