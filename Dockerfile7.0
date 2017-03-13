@@ -46,7 +46,6 @@ RUN apt-get install -y \
 	&& ./configure --with-php-config=/usr/local/bin/php-config --prefix=/usr/local/libevent-2.1.8 \
 	&& make \
 	&& make install \
-	&& echo "extension=libevent.so" >> /usr/local/etc/php/conf.d/memcached.ini \
     && cd /root \
 	&& wget https://launchpad.net/libmemcached/1.0/1.0.18/+download/libmemcached-1.0.18.tar.gz \
 	&& tar -zxvf libmemcached-1.0.18.tar.gz \
