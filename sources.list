@@ -4,14 +4,7 @@ deb-src http://mirrors.aliyun.com/debian/ jessie main non-free contrib
 deb-src http://mirrors.aliyun.com/debian/ jessie-proposed-updates main non-free contrib
 
 ##163源
-deb http://mirrors.163.com/debian/ jessie main non-free contrib
-deb http://mirrors.163.com/debian/ jessie-updates main non-free contrib
-deb http://mirrors.163.com/debian/ jessie-backports main non-free contrib
-deb-src http://mirrors.163.com/debian/ jessie main non-free contrib
-deb-src http://mirrors.163.com/debian/ jessie-updates main non-free contrib
-deb-src http://mirrors.163.com/debian/ jessie-backports main non-free contrib
-deb http://mirrors.163.com/debian-security/ jessie/updates main non-free contrib
-deb-src http://mirrors.163.com/debian-security/ jessie/updates main non-free contrib
+
 
 ##中科大源
 deb http://mirrors.ustc.edu.cn/debian jessie main contrib non-free
