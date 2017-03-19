@@ -1,0 +1,12 @@
+{
+  /* Same as: --ignore-ssl-errors=true */
+  "ignoreSslErrors": true,
+
+  "diskCacheEnabled": true,
+  "autoLoadImages": false,
+  "diskCachePath": "/var/phantomjs",
+
+  /* Same as: --output-encoding=utf8 */
+  "outputEncoding": "utf8",
+  "cookiesFile": "/var/phantomjs/cookiesFile.txt"
+}
