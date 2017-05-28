@@ -24,6 +24,8 @@ RUN apt-get update \
     && pear update-channels \
 	&& pear upgrade \
 	&& pear clear-cache \
+	&& pecl install libevent-beta swoole\
+	&& echo "extension=swoole.so" >> /usr/local/etc/php/conf.d/memcached.ini \
 	&& docker-php-ext-install \
         mcrypt \
         mbstring \
