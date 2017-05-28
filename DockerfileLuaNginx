@@ -99,7 +99,7 @@ RUN \
 
 RUN addgroup -g 1000 www-data && adduser -D  -G www-data -s /bin/false -u 1000 www-data
 
-RUN mkdir -p /opt/verynginx && mkdir -p /etc/nginx/conf && git clone https://github.com/camilb/VeryNginx.git \
+RUN mkdir -p /opt/verynginx && mkdir -p /etc/nginx/conf && git clone https://github.com/alexazhou/VeryNginx.git \
     && cp ./VeryNginx/nginx.conf /etc/nginx/conf/nginx.conf \
     && cp -r ./VeryNginx/verynginx /opt/verynginx \
     && chown -R www-data:www-data /opt/verynginx \
