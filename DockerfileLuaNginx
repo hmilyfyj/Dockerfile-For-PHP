@@ -108,7 +108,7 @@ RUN mkdir -p /opt/verynginx && mkdir -p /etc/nginx/conf && git clone https://git
 # ***** CLEANUP *****
 EXPOSE 80 443
 
-ADD entry.sh /
+# ADD entry.sh /
 
 #ENTRYPOINT ["/entry.sh"]
 CMD ["/usr/sbin/nginx", "-g", "daemon off;"]
