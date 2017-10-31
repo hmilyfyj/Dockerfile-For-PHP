@@ -1,13 +1,13 @@
 FROM alpine:3.5
 MAINTAINER felix@eworks.io
 
-ARG NGINX_VERSION=1.13.3
-ARG LIBRESSL_VERSION=2.4.4
+ARG NGINX_VERSION=1.13.6
+ARG LIBRESSL_VERSION=2.5.5
 
 ARG NGINX_DEVEL_KIT_VERSION=0.3.0
-ARG LUA_NGINX_MODULE_VERSION=0.10.9rc5
+ARG LUA_NGINX_MODULE_VERSION=0.10.11rc3
 ARG LUAJIT_MAIN_VERSION=2.1.0
-ARG LUAJIT_VERSION=2.1.0-beta2
+ARG LUAJIT_VERSION=2.1.0-beta3
 ARG UPSTREAM_HC_VERSION=master
 
 ARG NGINX_DEVEL_KIT=ngx_devel_kit-${NGINX_DEVEL_KIT_VERSION}
@@ -97,6 +97,7 @@ RUN \
   && ln -sf /dev/stdout /var/log/nginx/access.log \
   && ln -sf /dev/stderr /var/log/nginx/error.log
 
+# 添加用户组
 RUN addgroup -g 1000 www-data && adduser -D  -G www-data -s /bin/false -u 1000 www-data && addgroup -g 1001 nginx && adduser -D  -G nginx -s /bin/false -u 1001 nginx
 
 RUN mkdir -p /opt/verynginx && mkdir -p /etc/nginx/conf && git clone https://github.com/alexazhou/VeryNginx.git \
@@ -104,6 +105,11 @@ RUN mkdir -p /opt/verynginx && mkdir -p /etc/nginx/conf && git clone https://git
     && cp -r ./VeryNginx/verynginx /opt/verynginx \
     && chown -R www-data:www-data /opt/verynginx \
     && rm -rf ./verynginx
+
+RUN apk --no-cache add ca-certificates && \
+    apk --no-cache add tzdata && \
+    ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
+    echo "Asia/Shanghai" > /etc/timezone
 
 # ***** CLEANUP *****
 EXPOSE 80 443
