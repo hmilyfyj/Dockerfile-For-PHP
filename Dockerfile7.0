@@ -71,7 +71,7 @@ RUN echo "===> Installing python, sudo, and supporting tools..."  && \
     DEBIAN_FRONTEND=noninteractive         \
     apt-get install -y                     \
         python python-yaml sudo            \
-        curl gcc python-pip python-dev libffi-dev libssl-dev  && \
+        curl gcc python-pip python-dev libffi-dev libssl1.0.0=1.0.1t-1+deb8u6 libssl-dev  && \
     apt-get -y --purge remove python-cffi          && \
     pip install --upgrade cffi                     && \
     \
