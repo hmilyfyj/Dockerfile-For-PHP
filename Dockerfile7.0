@@ -68,9 +68,8 @@ RUN apt-get install -y \
 	&& echo "memcached.use_sasl = 1" >> /usr/local/etc/php/conf.d/memcached.ini 
 RUN echo "===> Installing python, sudo, and supporting tools..."  && \
     apt-get install --fix-missing          && \
-    DEBIAN_FRONTEND=noninteractive         && \
-	apt-get install -y libssl1.0.0=1.0.1t-1+deb8u6 && \
-    apt-get install -y                     \
+	DEBIAN_FRONTEND=noninteractive  apt-get install -y libssl1.0.0=1.0.1t-1+deb8u6 && \
+    DEBIAN_FRONTEND=noninteractive  apt-get install -y                     \
         python python-yaml sudo            \
         curl gcc python-pip python-dev libffi-dev libssl-dev  && \
     apt-get -y --purge remove python-cffi          && \
