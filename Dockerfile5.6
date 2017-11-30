@@ -92,7 +92,7 @@ RUN curl -sS https://getcomposer.org/installer | php \
 	&& ansible-galaxy install carlosbuenosvinos.ansistrano-deploy carlosbuenosvinos.ansistrano-rollback \
 	&& ssh-keygen -t rsa -N '' -f ~/.ssh/id_rsa -q -b 2048 \
 	&& cat ~/.ssh/id_rsa \
-	&& ssh-keyscan coding.net >> /root/.ssh/known_hosts && ssh-keyscan github.com >> /root/.ssh/known_hosts && ssh-keyscan -p 10022 git.shanjing-inc.com >> /root/.ssh/known_hosts
+	&& ssh-keyscan coding.net >> /root/.ssh/known_hosts && ssh-keyscan github.com >> /root/.ssh/known_hosts
 ADD php.ini-production /usr/local/etc/php/php.ini
 ADD php-fpm-production.conf /usr/local/etc/php-fpm.d/www.conf
 RUN mkdir -p /var/log/php-fpm && export TZ=Asia/Shanghai && echo $TZ | tee /etc/timezone && dpkg-reconfigure --frontend noninteractive tzdata
