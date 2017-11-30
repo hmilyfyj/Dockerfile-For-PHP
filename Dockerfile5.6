@@ -65,21 +65,23 @@ RUN apt-get install -y \
     && echo "extension=memcached.so" >> /usr/local/etc/php/conf.d/memcached.ini \
 	&& echo "memcached.use_sasl = 1" >> /usr/local/etc/php/conf.d/memcached.ini 
 RUN echo "===> Installing python, sudo, and supporting tools..."  && \
-    apt-get install --fix-missing          && \
+    apt-get update -y  &&  apt-get install --fix-missing          && \
     DEBIAN_FRONTEND=noninteractive         \
     apt-get install -y                     \
-        python python-yaml sudo            \
-        curl python-pip python-dev libffi-dev libssl-dev  && \
-    apt-get -y --purge remove python-cffi          && \
-    pip install --upgrade cffi                     && \
+        python python-yaml sudo  python-pip   \
+        curl gcc python-dev libffi-dev libssl-dev  && \
+    apt-get -y --purge remove python-cffi && \
+    pip install --upgrade setuptools && \
+    pip install --upgrade cffi pywinrm  pip           && \
+    \
     \
     \
     echo "===> Installing Ansible..."   && \
-    pip install ansible==1.9.4      && \
+    pip install "ansible>=2.3,<2.4"     && \
     \
     \
     echo "===> Installing handy tools (not absolutely required)..."  && \
-    apt-get install -y sshpass openssh-client \
+    apt-get install -y sshpass openssh-client libfontconfig \
 	&& pip install csvkit && pip install --upgrade six
 RUN curl -sS https://getcomposer.org/installer | php \
 	&& mv composer.phar /usr/local/bin/composer \
