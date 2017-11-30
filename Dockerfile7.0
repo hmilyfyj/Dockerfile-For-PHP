@@ -67,17 +67,19 @@ RUN apt-get install -y \
 	&& echo "extension=memcached.so" >> /usr/local/etc/php/conf.d/memcached.ini \
 	&& echo "memcached.use_sasl = 1" >> /usr/local/etc/php/conf.d/memcached.ini 
 RUN echo "===> Installing python, sudo, and supporting tools..."  && \
-    apt-get install --fix-missing          && \
-	DEBIAN_FRONTEND=noninteractive  apt-get install -y libssl1.0.0=1.0.1t-1+deb8u6 && \
-    DEBIAN_FRONTEND=noninteractive  apt-get install -y                     \
-        python python-yaml sudo            \
-        curl gcc python-pip python-dev libffi-dev libssl-dev  && \
-    apt-get -y --purge remove python-cffi          && \
-    pip install --upgrade cffi                     && \
+    apt-get update -y  &&  apt-get install --fix-missing          && \
+    DEBIAN_FRONTEND=noninteractive         \
+    apt-get install -y                     \
+        python python-yaml sudo  python-pip   \
+        curl gcc python-dev libffi-dev libssl-dev  && \
+    apt-get -y --purge remove python-cffi && \
+    pip install --upgrade setuptools && \
+    pip install --upgrade cffi pywinrm  pip           && \
+    \
     \
     \
     echo "===> Installing Ansible..."   && \
-    pip install ansible==1.9.4      && \
+    pip install "ansible>=2.3,<2.4"     && \
     \
     \
     echo "===> Installing handy tools (not absolutely required)..."  && \
@@ -92,7 +94,7 @@ RUN curl -sS https://getcomposer.org/installer | php \
 	&& ansible-galaxy install carlosbuenosvinos.ansistrano-deploy carlosbuenosvinos.ansistrano-rollback \
 	&& ssh-keygen -t rsa -N '' -f ~/.ssh/id_rsa -q -b 2048 \
 	&& cat ~/.ssh/id_rsa \
-	&& ssh-keyscan coding.net >> /root/.ssh/known_hosts && ssh-keyscan github.com >> /root/.ssh/known_hosts && ssh-keyscan -p 10022 git.shanjing-inc.com >> /root/.ssh/known_hosts
+	&& ssh-keyscan coding.net >> /root/.ssh/known_hosts && ssh-keyscan github.com >> /root/.ssh/known_hosts
 ADD php.ini-production /usr/local/etc/php/php.ini
 ADD php-fpm-production.conf /usr/local/etc/php-fpm.d/www.conf
 ADD ./_linux /
