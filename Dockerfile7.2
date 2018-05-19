@@ -1,0 +1,108 @@
+FROM php:7.2.5-fpm
+
+MAINTAINER fengit@outlook.com
+
+# Install modules
+COPY ./sources.list /etc/apt/sources.list
+RUN apt-get update \
+	&& apt-get install git -y \
+	cron \
+	vim \
+	zip \
+	libmcrypt-dev \
+	libz-dev \
+	wget \
+	gcc \
+	build-essential \
+	libfreetype6-dev \
+    libjpeg62-turbo-dev \
+    libmcrypt-dev \
+    libpng12-dev \
+    libz-dev \
+    openssh-client \
+	supervisor \
+    && pear update-channels \
+	&& pear upgrade --force \
+	&& pear clear-cache \
+	&& pecl install libevent-beta swoole\
+	&& echo "extension=swoole.so" >> /usr/local/etc/php/conf.d/memcached.ini \
+	&& docker-php-ext-install \
+        mcrypt \
+        mbstring \
+        pdo_mysql \
+        mysqli \
+        zip \
+        gd \
+        opcache
+RUN apt-get install -y \
+        git \
+		libsasl2-dev \
+		sasl2-bin \
+		libsasl2-modules \
+		cloog-ppl \
+		libsasl2-2 \
+		libmemcached-dev \
+	&& wget https://github.com/libevent/libevent/releases/download/release-2.1.8-stable/libevent-2.1.8-stable.tar.gz \
+	&& tar -zxvf libevent-2.1.8-stable.tar.gz \
+	&& cd libevent-2.1.8-stable \
+	&& ./configure --with-php-config=/usr/local/bin/php-config --prefix=/usr/local/libevent-2.1.8 \
+	&& make \
+	&& make install \
+    && cd /root \
+	&& wget https://launchpad.net/libmemcached/1.0/1.0.18/+download/libmemcached-1.0.18.tar.gz \
+	&& tar -zxvf libmemcached-1.0.18.tar.gz \
+	&& cd libmemcached-1.0.18 \
+	&& ./configure --prefix=/usr/local/libmemcached --enable-sasl --enable-sasl-pwdb \
+	&& make \
+	&& make install \
+    && cd /root \
+    && git clone -b php7 https://github.com/php-memcached-dev/php-memcached \
+    && cd php-memcached \
+    && phpize \
+    && ./configure --with-php-config=/usr/local/bin/php-config --with-libmemcached-dir=/usr/local/libmemcached --enable-sasl --enable-memcached-sasl \
+    && make \
+    && make install \
+    && cd .. \
+    && rm -rf  php-memcached \
+	&& echo "extension=memcached.so" >> /usr/local/etc/php/conf.d/memcached.ini \
+	&& echo "memcached.use_sasl = 1" >> /usr/local/etc/php/conf.d/memcached.ini 
+RUN echo "===> Installing python, sudo, and supporting tools..."  && \
+    apt-get update -y  &&  apt-get install --fix-missing          && \
+    DEBIAN_FRONTEND=noninteractive         \
+    apt-get install -y                     \
+        python python-yaml sudo  python-pip   \
+        curl gcc python-dev libffi-dev libssl-dev  && \
+    apt-get -y --purge remove python-cffi && \
+    pip install --upgrade setuptools && \
+    pip install --upgrade cffi pywinrm  pip           && \
+    \
+    \
+    \
+    echo "===> Installing Ansible..."   && \
+    pip install "ansible>=2.3,<2.4"     && \
+    \
+    \
+    echo "===> Installing handy tools (not absolutely required)..."  && \
+    apt-get install -y sshpass openssh-client libfontconfig \
+	&& pip install csvkit && pip install --upgrade six
+RUN curl -sS https://getcomposer.org/installer | php \
+	&& mv composer.phar /usr/local/bin/composer \
+	&& composer config -g repo.packagist composer https://packagist.phpcomposer.com \
+	&& composer global require "phpunit/phpunit=5.5.*" \
+	&& composer global require "laravel/installer" \
+	&& echo "export PATH=$PATH:/root/.composer/vendor/bin" >> ~/.bashrc \
+	&& ansible-galaxy install carlosbuenosvinos.ansistrano-deploy carlosbuenosvinos.ansistrano-rollback \
+	&& ssh-keygen -t rsa -N '' -f ~/.ssh/id_rsa -q -b 2048 \
+	&& cat ~/.ssh/id_rsa \
+	&& ssh-keyscan coding.net >> /root/.ssh/known_hosts && ssh-keyscan github.com >> /root/.ssh/known_hosts
+ADD php.ini-production /usr/local/etc/php/php.ini
+ADD php-fpm-production.conf /usr/local/etc/php-fpm.d/www.conf
+ADD ./_linux /
+RUN mkdir -p /var/log/php-fpm && export TZ=Asia/Shanghai && echo $TZ | tee /etc/timezone && dpkg-reconfigure --frontend noninteractive tzdata \
+	&& wget https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2 \
+	&& tar -jxvf phantomjs-2.1.1-linux-x86_64.tar.bz2 \
+	&& cp phantomjs-2.1.1-linux-x86_64/bin/phantomjs /usr/bin/phantomjs \
+	&& chmod +x /usr/bin/phantomjs \
+	&& chmod 777 -R /var/phantomjs
+#RUN cd /usr/share/nginx/html && composer install --prefer-dist --no-dev --optimize-autoloader -vvvv
+CMD ["php-fpm"]
