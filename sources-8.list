@@ -1,0 +1,15 @@
+deb http://mirrors.aliyun.com/debian/ jessie main non-free contrib
+deb http://mirrors.aliyun.com/debian/ jessie-proposed-updates main non-free contrib
+deb-src http://mirrors.aliyun.com/debian/ jessie main non-free contrib
+deb-src http://mirrors.aliyun.com/debian/ jessie-proposed-updates main non-free contrib
+
+##163源
+
+
+##中科大源
+deb http://mirrors.ustc.edu.cn/debian jessie main contrib non-free
+deb-src http://mirrors.ustc.edu.cn/debian jessie main contrib non-free
+deb http://mirrors.ustc.edu.cn/debian jessie-proposed-updates main contrib non-free
+deb-src http://mirrors.ustc.edu.cn/debian jessie-proposed-updates main contrib non-free
+deb http://mirrors.ustc.edu.cn/debian jessie-updates main contrib non-free
+deb-src http://mirrors.ustc.edu.cn/debian jessie-updates main contrib non-free
