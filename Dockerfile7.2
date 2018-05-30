@@ -26,7 +26,7 @@ RUN aptitude update -y && aptitude install zlib1g -y \
     && pear update-channels \
 	&& pear upgrade --force \
 	&& pear clear-cache \
-	&& pecl install libevent-dev swoole mcrypt-1.0.1\
+	&& pecl install libevent swoole mcrypt-1.0.1\
 	&& docker-php-ext-install \
         mbstring \
         pdo_mysql \
@@ -38,7 +38,7 @@ RUN aptitude update -y && aptitude install zlib1g -y \
     && rm -r /var/lib/apt/lists/*
 
 # memcached module
-RUN aptitude update -y && aptitude install -y libmemcached-dev cyrus-sasl-dev && rm -rf /var/lib/apt/lists/*
+RUN aptitude update -y && aptitude install -y libmemcached-dev && rm -rf /var/lib/apt/lists/*
 RUN curl -o /root/memcached.zip https://github.com/php-memcached-dev/php-memcached/archive/php7.zip -L
 RUN cd /root && unzip memcached.zip && rm memcached.zip && \
  cd php-memcached-php7 && \
