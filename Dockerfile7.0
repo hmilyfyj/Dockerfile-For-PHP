@@ -85,9 +85,7 @@ RUN echo "===> Installing python, sudo, and supporting tools..."  && \
 	&& pip install csvkit && pip install --upgrade six
 RUN curl -sS https://getcomposer.org/installer | php \
 	&& mv composer.phar /usr/local/bin/composer \
-	&& composer config -g repo.packagist composer https://packagist.phpcomposer.com \
-	&& composer global require "phpunit/phpunit=5.5.*" \
-	&& composer global require "laravel/installer" \
+	&& composer config -g repo.packagist composer https://packagist.laravel-china.org \
 	&& echo "export PATH=$PATH:/root/.composer/vendor/bin" >> ~/.bashrc \
 	&& ansible-galaxy install carlosbuenosvinos.ansistrano-deploy carlosbuenosvinos.ansistrano-rollback \
 	&& ssh-keygen -t rsa -N '' -f ~/.ssh/id_rsa -q -b 2048 \
