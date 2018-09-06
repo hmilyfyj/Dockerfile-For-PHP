@@ -79,12 +79,11 @@ RUN echo "===> Installing python, sudo, and supporting tools..."  && \
     \
     \
     echo "===> Installing Ansible..."   && \
-    pip install "ansible>=2.3,<2.4"     && \
     \
     \
     echo "===> Installing handy tools (not absolutely required)..."  && \
     apt-get install -y sshpass openssh-client libfontconfig \
-	&& pip install csvkit && pip install --upgrade six
+	&& pip install csvkit && pip install --upgrade six && pip install ansible
 RUN curl -sS https://getcomposer.org/installer | php \
 	&& mv composer.phar /usr/local/bin/composer \
 	&& composer config -g repo.packagist composer https://packagist.laravel-china.org \
