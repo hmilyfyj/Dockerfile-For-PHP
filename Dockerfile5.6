@@ -16,6 +16,7 @@ RUN apt-get update \
     libjpeg62-turbo-dev \
     libmcrypt-dev \
     libpng-dev \
+    libjpeg-dev \
     libz-dev \
     openssh-client \
 	supervisor \
@@ -26,6 +27,7 @@ RUN apt-get update \
 	&& pecl install libevent-beta swoole\
 	&& echo "extension=libevent.so" >> /usr/local/etc/php/conf.d/memcached.ini \
 	&& echo "extension=swoole.so" >> /usr/local/etc/php/conf.d/memcached.ini \
+	&& docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/  \
 	&& docker-php-ext-install \
         mcrypt \
         mbstring \
