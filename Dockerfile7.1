@@ -1,9 +1,9 @@
-FROM php:7.1-fpm
+FROM php:7.1-fpm-stretch
 
 MAINTAINER fengit@outlook.com
 
 # Install modules
-COPY ./sources.list /etc/apt/sources.list
+COPY ./sources-9.list /etc/apt/sources.list
 RUN apt-get update \
 	&& apt-get install git -y \
 	cron \
