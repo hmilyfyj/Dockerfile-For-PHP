@@ -4,8 +4,7 @@ MAINTAINER fengit@outlook.com
 
 # Install modules
 COPY ./sources-9.list /etc/apt/sources.list
-RUN apt-get update \
-	&& apt-get install git -y \
+RUN apt-get clean && apt-get update && apt-get install -y \
 	cron \
 	vim \
 	zip \
@@ -33,15 +32,17 @@ RUN apt-get update \
         mysqli \
         zip \
         gd \
-        opcache
-RUN apt-get install -y \
+        opcache  && \
+        apt-get clean
+RUN apt-get clean && apt-get install -y \
         git \
 		libsasl2-dev \
 		sasl2-bin \
 		libsasl2-modules \
 		cloog-ppl \
 		libsasl2-2 \
-		libmemcached-dev \
+		libmemcached-dev && \
+		apt-get clean
 	&& wget https://github.com/libevent/libevent/releases/download/release-2.1.8-stable/libevent-2.1.8-stable.tar.gz \
 	&& tar -zxvf libevent-2.1.8-stable.tar.gz \
 	&& cd libevent-2.1.8-stable \
@@ -67,8 +68,8 @@ RUN apt-get install -y \
 	&& echo "extension=memcached.so" >> /usr/local/etc/php/conf.d/memcached.ini \
 	&& echo "memcached.use_sasl = 1" >> /usr/local/etc/php/conf.d/memcached.ini 
 RUN echo "===> Installing python, sudo, and supporting tools..."  && \
-    apt-get update -y  &&  apt-get install --fix-missing          && \
-    DEBIAN_FRONTEND=noninteractive         \
+    apt-get clean && apt-get update -y && \
+    DEBIAN_FRONTEND=noninteractive \
     apt-get install -y                     \
         python python-yaml sudo  python-pip   \
         curl gcc python-dev libffi-dev libssl-dev  && \
@@ -84,7 +85,8 @@ RUN echo "===> Installing python, sudo, and supporting tools..."  && \
     \
     echo "===> Installing handy tools (not absolutely required)..."  && \
     apt-get install -y sshpass openssh-client libfontconfig \
-	&& pip install csvkit && pip install --upgrade six
+	&& pip install csvkit && pip install --upgrade six && \
+	apt-get clean
 RUN curl -sS https://getcomposer.org/installer | php \
 	&& mv composer.phar /usr/local/bin/composer \
 	&& composer config -g repo.packagist composer https://packagist.laravel-china.org \
