@@ -74,16 +74,17 @@ RUN echo "===> Installing python, sudo, and supporting tools..."  && \
         curl gcc python-dev libffi-dev libssl-dev  && \
     apt-get -y --purge remove python-cffi && \
     pip install --upgrade setuptools && \
-    pip install --upgrade cffi pywinrm  pip           && \
+    pip install --upgrade cffi pywinrm && \
     \
     \
     \
     echo "===> Installing Ansible..."   && \
+    pip install ansible && \
     \
     \
     echo "===> Installing handy tools (not absolutely required)..."  && \
     apt-get install -y sshpass openssh-client libfontconfig \
-	&& pip install csvkit && pip install --upgrade six && pip install ansible
+	&& pip install csvkit && pip install --upgrade six
 RUN curl -sS https://getcomposer.org/installer | php \
 	&& mv composer.phar /usr/local/bin/composer \
 	&& composer config -g repo.packagist composer https://packagist.laravel-china.org \
