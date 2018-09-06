@@ -43,7 +43,6 @@ RUN apt-get clean && apt-get install -y \
 		cloog-ppl \
 		libsasl2-2 \
 		libmemcached-dev && \
-		apt-get clean
 	&& wget https://github.com/libevent/libevent/releases/download/release-2.1.8-stable/libevent-2.1.8-stable.tar.gz \
 	&& tar -zxvf libevent-2.1.8-stable.tar.gz \
 	&& cd libevent-2.1.8-stable \
