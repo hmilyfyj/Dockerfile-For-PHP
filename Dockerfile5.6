@@ -62,8 +62,12 @@ RUN apt-get clean && apt-get update -y && apt-get install -y \
     && make install \
     && cd .. \
     && rm -rf  php-memcached \
+    && rm -rf memcached-2.2.0 \
     && echo "extension=memcached.so" >> /usr/local/etc/php/conf.d/memcached.ini \
 	&& echo "memcached.use_sasl = 1" >> /usr/local/etc/php/conf.d/memcached.ini && \
+	cd /root \
+    rm -f libmemcached-1.0.18.tar.gz && \
+    rm -rf libmemcached-1.0.18 && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 RUN echo "===> Installing python, sudo, and supporting tools..."  && \
