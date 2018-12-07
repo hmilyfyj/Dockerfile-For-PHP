@@ -30,6 +30,7 @@ RUN apt-get clean && apt-get update && apt-get install -y \
            --with-png-dir --with-zlib-dir --with-xpm-dir --with-freetype-dir \
            --enable-gd-native-ttf  \
 	&& docker-php-ext-install \
+	    bcmath \
         mcrypt \
         mbstring \
         pdo_mysql \
