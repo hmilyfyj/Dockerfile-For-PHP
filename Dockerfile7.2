@@ -69,7 +69,7 @@ RUN echo "===> Installing python, sudo, and supporting tools..."  && \
     \
     echo "===> Installing handy tools (not absolutely required)..."  && \
     aptitude install -y sshpass openssh-client libfontconfig \
-	&& pip install csvkit && pip install --upgrade six && rm -r /var/lib/apt/lists/* \
+	&& pip install csvkit && pip install --upgrade six && rm -r /var/lib/apt/lists/*
 RUN curl -sS https://getcomposer.org/installer | php \
 	&& mv composer.phar /usr/local/bin/composer \
 	&& composer config -g repo.packagist composer https://packagist.laravel-china.org \
