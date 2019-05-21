@@ -103,6 +103,6 @@ RUN curl -sS https://getcomposer.org/installer | php \
 	&& ssh-keyscan coding.net >> /root/.ssh/known_hosts && ssh-keyscan github.com >> /root/.ssh/known_hosts
 ADD php.ini-production /usr/local/etc/php/php.ini
 ADD php-fpm-production.conf /usr/local/etc/php-fpm.d/www.conf
-RUN mkdir -p /var/log/php-fpm && export TZ=Asia/Shanghai && echo $TZ | tee /etc/timezone && dpkg-reconfigure --frontend noninteractive tzdata
+RUN mkdir -p /var/log/php-fpm && export TZ=Asia/Shanghai && ln -sf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone && dpkg-reconfigure --frontend noninteractive tzdata
 #RUN cd /usr/share/nginx/html && composer install --prefer-dist --no-dev --optimize-autoloader -vvvv
 CMD ["php-fpm"]
