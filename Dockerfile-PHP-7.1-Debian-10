@@ -3,7 +3,7 @@ FROM php:7.1-fpm-buster
 MAINTAINER fengit@outlook.com
 
 # Install modules
-COPY ./Dockerfile-PHP-7.1-Debian-10 /etc/apt/sources.list
+COPY ./debian-sources-10.list /etc/apt/sources.list
 RUN apt-get clean && apt-get update && apt-get install -y \
 	cron \
 	vim \
