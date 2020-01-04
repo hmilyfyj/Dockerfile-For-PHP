@@ -40,13 +40,27 @@ RUN pecl install mcrypt \
         rm -rf /var/lib/apt/lists/*
 
 # version 1
-RUN apt-get update && apt-get -y install libz-dev libmemcached-dev libmemcached11 libmemcachedutil2 build-essential \
-    && pecl install memcached-2.2.0 \
-    && echo extension=memcached.so >> /usr/local/etc/php/conf.d/memcached.ini \
-    && apt-get remove -y build-essential libmemcached-dev libz-dev \
-    && apt-get autoremove -y \
-    && apt-get clean \
-    && rm -rf /tmp/pear
+# version 2
+RUN apt-get update \
+        && buildDeps=" \
+                git \
+                libmemcached-dev \
+                zlib1g-dev \
+        " \
+        && doNotUninstall=" \
+                libmemcached11 \
+                libmemcachedutil2 \
+        " \
+        && apt-get install -y $buildDeps --no-install-recommends \
+        && rm -r /var/lib/apt/lists/* \
+        \
+        && docker-php-source extract \
+        && git clone --branch php7 https://github.com/php-memcached-dev/php-memcached /usr/src/php/ext/memcached/ \
+        && docker-php-ext-install memcached \
+        \
+        && docker-php-source delete \
+        && apt-mark manual $doNotUninstall \
+        && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false $buildDeps
 RUN echo "===> Installing python, sudo, and supporting tools..."  && \
     apt-get clean && apt-get update -y && \
     DEBIAN_FRONTEND=noninteractive \
