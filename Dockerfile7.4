@@ -3,6 +3,7 @@ FROM php:7.4-fpm-buster
 MAINTAINER fengit@outlook.com
 
 # Install modules
+COPY ./sources-10.list /etc/apt/sources.list
 RUN apt-get clean && apt-get update && apt-get install -y \
 	cron \
 	vim \
@@ -20,12 +21,11 @@ RUN apt-get clean && apt-get update && apt-get install -y \
 	supervisor \
 	libwebp-dev \
     libxpm-dev  \
+    libonig-dev libzip-dev \
     && pear update-channels \
 	&& pear upgrade --force \
 	&& pear clear-cache \
-	&& pecl install libevent-beta swoole
-RUN apt-get install -y libonig-dev libzip-dev
-RUN pecl install mcrypt \
+	&& pecl install libevent-beta swoole mcrypt \
     && docker-php-ext-configure gd --enable-gd --with-webp --with-jpeg --with-xpm --with-freetype  \
 	&& docker-php-ext-install \
 	    bcmath \
