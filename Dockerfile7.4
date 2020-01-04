@@ -25,17 +25,17 @@ RUN apt-get clean && apt-get update && apt-get install -y \
 	&& pear upgrade --force \
 	&& pear clear-cache \
 	&& pecl install libevent-beta swoole
-RUN docker-php-ext-configure gd --enable-gd --with-webp --with-jpeg --with-xpm --with-freetype  \
+RUN pecl install mcrypt-1.0.1 \
+    && docker-php-ext-configure gd --enable-gd --with-webp --with-jpeg --with-xpm --with-freetype  \
 	&& docker-php-ext-install \
 	    bcmath \
-        mcrypt \
         mbstring \
         pdo_mysql \
         mysqli \
         zip \
         gd \
         opcache  && \
-        docker-php-ext-enable swoole && \
+        docker-php-ext-enable swoole mcrypt && \
         apt-get clean && \
         rm -rf /var/lib/apt/lists/*
 RUN apt-get clean && apt-get update  -y  && apt-get install -y \
@@ -122,3 +122,4 @@ CMD ["php-fpm"]
 
 # GD https://github.com/docker-library/php/issues/608
 # GD https://github.com/brefphp/bref/pull/415
+# mcrypt https://github.com/docker-library/php/issues/541
