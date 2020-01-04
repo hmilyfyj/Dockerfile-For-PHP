@@ -24,8 +24,8 @@ RUN apt-get clean && apt-get update && apt-get install -y \
     && pear update-channels \
 	&& pear upgrade --force \
 	&& pear clear-cache \
-	&& pecl install libevent-beta swoole \
-	&& docker-php-ext-configure gd --with-webp --with-jpeg--with-zlib --with-xpm --with-freetype  \
+	&& pecl install libevent-beta swoole
+RUN docker-php-ext-configure gd --with-webp --with-jpeg--with-zlib --with-xpm --with-freetype  \
 	&& docker-php-ext-install \
 	    bcmath \
         mcrypt \
