@@ -39,45 +39,13 @@ RUN pecl install mcrypt \
         docker-php-ext-enable swoole mcrypt && \
         apt-get clean && \
         rm -rf /var/lib/apt/lists/*
-RUN apt-get clean && apt-get update  -y  && apt-get install -y \
-        git \
-		libsasl2-dev \
-		sasl2-bin \
-		libsasl2-modules \
-		libsasl2-2 \
-		libmemcached-dev \
-    && cd /root \
-	&& wget https://github.com/libevent/libevent/releases/download/release-2.1.8-stable/libevent-2.1.8-stable.tar.gz \
-	&& tar -zxvf libevent-2.1.8-stable.tar.gz \
-	&& cd libevent-2.1.8-stable \
-	&& ./configure --with-php-config=/usr/local/bin/php-config --prefix=/usr/local/libevent-2.1.8 \
-	&& make \
-	&& make install \
-    && cd /root \
-	&& wget https://launchpad.net/libmemcached/1.0/1.0.18/+download/libmemcached-1.0.18.tar.gz \
-	&& tar -zxvf libmemcached-1.0.18.tar.gz \
-	&& cd libmemcached-1.0.18 \
-	&& ./configure --prefix=/usr/local/libmemcached --enable-sasl --enable-sasl-pwdb \
-	&& make \
-	&& make install \
-    && cd /root \
-    && git clone -b php7 https://github.com/php-memcached-dev/php-memcached \
-    && cd php-memcached \
-    && phpize \
-    && ./configure --with-php-config=/usr/local/bin/php-config --with-libmemcached-dir=/usr/local/libmemcached --enable-sasl --enable-memcached-sasl \
-    && make \
-    && make install \
-    && cd .. \
-	&& echo "extension=memcached.so" >> /usr/local/etc/php/conf.d/memcached.ini \
-	&& echo "memcached.use_sasl = 1" >> /usr/local/etc/php/conf.d/memcached.ini && \
-    cd /root && \
-    rm -rf  php-memcached && \
-    rm -rf libevent-2.1.8-stable && \
-    rm -f libmemcached-1.0.18.tar.gz && \
-    rm -rf libmemcached-1.0.18 && \
-    rm -f libevent-2.1.8-stable.tar.gz && \
-	apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+RUN apt-get -y install libz-dev libmemcached-dev libmemcached11 libmemcachedutil2 build-essential \
+    && pecl install memcached-2.2.0 \
+    && echo extension=memcached.so >> /usr/local/etc/php/conf.d/memcached.ini \
+    && apt-get remove -y build-essential libmemcached-dev libz-dev \
+    && apt-get autoremove -y \
+    && apt-get clean \
+    && rm -rf /tmp/pear
 RUN echo "===> Installing python, sudo, and supporting tools..."  && \
     apt-get clean && apt-get update -y && \
     DEBIAN_FRONTEND=noninteractive \
@@ -124,4 +92,3 @@ CMD ["php-fpm"]
 # GD https://github.com/brefphp/bref/pull/415
 # mcrypt https://github.com/docker-library/php/issues/541
 # oniguruma https://github.com/docker-library/php/issues/880
-# cloog-ppl
