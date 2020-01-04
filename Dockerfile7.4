@@ -3,7 +3,6 @@ FROM php:7.4-fpm-buster
 MAINTAINER fengit@outlook.com
 
 # Install modules
-COPY ./sources-10.list /etc/apt/sources.list
 RUN apt-get clean && apt-get update && apt-get install -y \
 	cron \
 	vim \
@@ -92,3 +91,4 @@ CMD ["php-fpm"]
 # GD https://github.com/brefphp/bref/pull/415
 # mcrypt https://github.com/docker-library/php/issues/541
 # oniguruma https://github.com/docker-library/php/issues/880
+# memcached https://github.com/docker-library/php/issues/132
