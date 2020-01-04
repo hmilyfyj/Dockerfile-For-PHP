@@ -44,7 +44,6 @@ RUN apt-get clean && apt-get update  -y  && apt-get install -y \
 		libsasl2-dev \
 		sasl2-bin \
 		libsasl2-modules \
-		cloog-ppl \
 		libsasl2-2 \
 		libmemcached-dev \
     && cd /root \
@@ -125,3 +124,4 @@ CMD ["php-fpm"]
 # GD https://github.com/brefphp/bref/pull/415
 # mcrypt https://github.com/docker-library/php/issues/541
 # oniguruma https://github.com/docker-library/php/issues/880
+# cloog-ppl
