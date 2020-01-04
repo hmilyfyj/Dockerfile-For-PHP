@@ -25,7 +25,7 @@ RUN apt-get clean && apt-get update && apt-get install -y \
 	&& pear upgrade --force \
 	&& pear clear-cache \
 	&& pecl install libevent-beta swoole
-RUN docker-php-ext-configure gd --with-webp --with-jpeg --with-zlib --with-xpm --with-freetype  \
+RUN docker-php-ext-configure gd --enable-gd --with-webp --with-jpeg --with-xpm --with-freetype  \
 	&& docker-php-ext-install \
 	    bcmath \
         mcrypt \
@@ -121,3 +121,4 @@ RUN mkdir -p /var/log/php-fpm && export TZ=Asia/Shanghai && ln -sf /usr/share/zo
 CMD ["php-fpm"]
 
 # GD https://github.com/docker-library/php/issues/608
+# GD https://github.com/brefphp/bref/pull/415
