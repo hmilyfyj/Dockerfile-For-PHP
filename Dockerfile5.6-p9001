@@ -2,5 +2,5 @@ FROM registry-vpc.cn-hangzhou.aliyuncs.com/shanjing/php-fpm56
 
 MAINTAINER fengit@outlook.com
 
-RUN sed -i 's/:9000/:9001/' /usr/local/etc/php-fpm.d/zz-docker.conf
+RUN sed -i 's/9000/9001/' /usr/local/etc/php-fpm.d/zz-docker.conf
 CMD ["php-fpm"]
