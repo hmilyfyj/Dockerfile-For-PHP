@@ -38,8 +38,10 @@ RUN apt-get update \
         gd \
         opcache \
         pcntl \
-     && cat ./php-config/docker-php-ext-opcache-config.ini $PHP_INI_DIR/conf.d/docker-php-ext-opcache.ini \
      && docker-php-ext-enable swoole
+
+COPY ./php-config/docker-php-ext-opcache-config.ini $PHP_INI_DIR/conf.d/docker-php-ext-opcache-config.ini
+
 RUN apt-get install -y \
         git \
 		libsasl2-dev \

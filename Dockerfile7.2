@@ -42,8 +42,9 @@ RUN aptitude update -y && aptitude install zlib1g -y \
         opcache \
         pcntl
     && docker-php-ext-enable swoole mcrypt \
-    && cat ./php-config/docker-php-ext-opcache-config-php72.ini $PHP_INI_DIR/conf.d/docker-php-ext-opcache.ini \
     && rm -r /var/lib/apt/lists/*
+
+COPY ./php-config/docker-php-ext-opcache-config-php72.ini $PHP_INI_DIR/conf.d/docker-php-ext-opcache-config.ini
 
 # memcached module
 RUN aptitude update -y && aptitude install -y libmemcached-dev && rm -rf /var/lib/apt/lists/*
