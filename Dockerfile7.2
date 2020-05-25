@@ -31,6 +31,7 @@ RUN aptitude update -y && aptitude install zlib1g -y \
 	&& pear clear-cache \
 	&& pecl install libevent swoole mcrypt-1.0.1\
 	&& docker-php-ext-configure gd --with-gd --with-webp-dir --with-jpeg-dir  --with-png-dir --with-zlib-dir --with-xpm-dir --with-freetype-dir --enable-gd-native-ttf \
+	&& docker-php-ext-configure opcache --enable-opcache \
 	&& docker-php-ext-install \
 	    bcmath \
         mbstring \
@@ -41,6 +42,7 @@ RUN aptitude update -y && aptitude install zlib1g -y \
         opcache \
         pcntl
     && docker-php-ext-enable swoole mcrypt \
+    && cat ./php-config/docker-php-ext-opcache-config-php72.ini $PHP_INI_DIR/conf.d/docker-php-ext-opcache.ini \
     && rm -r /var/lib/apt/lists/*
 
 # memcached module
