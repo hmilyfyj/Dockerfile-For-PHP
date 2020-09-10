@@ -1,0 +1,11 @@
+FROM registry.cn-hangzhou.aliyuncs.com/shanjing/php-fpm74
+
+RUN apt-get update && apt-get install -y  ttf-wqy-zenhei  chromium && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* \
+
+# GD https://github.com/docker-library/php/issues/608
+# GD https://github.com/brefphp/bref/pull/415
+# mcrypt https://github.com/docker-library/php/issues/541
+# oniguruma https://github.com/docker-library/php/issues/880
+# memcached https://github.com/docker-library/php/issues/132
