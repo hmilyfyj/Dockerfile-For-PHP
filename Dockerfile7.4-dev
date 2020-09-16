@@ -11,7 +11,7 @@ RUN composer global require phpunit/phpcov=^7.0 && \
     pecl install xdebug && docker-php-ext-enable xdebug
 
 RUN composer global require laravel/installer=^7.0
-
+ADD ./_linux /
 
 # GD https://github.com/docker-library/php/issues/608
 # GD https://github.com/brefphp/bref/pull/415
