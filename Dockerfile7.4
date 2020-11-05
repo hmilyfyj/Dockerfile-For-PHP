@@ -40,7 +40,7 @@ RUN apt-get clean && apt-get update && apt-get install -y \
         apt-get clean && \
         rm -rf /var/lib/apt/lists/* \
 
-RUN yes 'n' | pecl install redis && docker-php-ext-enable redis
+RUN yes "no" | pecl install redis && docker-php-ext-enable redis
 
 COPY ./php-config/docker-php-ext-opcache-config-php72.ini $PHP_INI_DIR/conf.d/docker-php-ext-opcache-config.ini
 
