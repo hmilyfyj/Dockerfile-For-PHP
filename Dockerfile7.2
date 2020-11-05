@@ -44,6 +44,8 @@ RUN aptitude update -y && aptitude install zlib1g -y \
     && docker-php-ext-enable swoole mcrypt \
     && rm -r /var/lib/apt/lists/*
 
+RUN yes "no" | pecl install redis && docker-php-ext-enable redis
+
 COPY ./php-config/docker-php-ext-opcache-config-php72.ini $PHP_INI_DIR/conf.d/docker-php-ext-opcache-config.ini
 
 # memcached module

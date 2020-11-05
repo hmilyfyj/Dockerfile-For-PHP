@@ -40,6 +40,8 @@ RUN apt-get update \
         pcntl \
      && docker-php-ext-enable swoole
 
+RUN yes "no" | pecl install redis && docker-php-ext-enable redis
+
 COPY ./php-config/docker-php-ext-opcache-config.ini $PHP_INI_DIR/conf.d/docker-php-ext-opcache-config.ini
 
 RUN apt-get install -y \
