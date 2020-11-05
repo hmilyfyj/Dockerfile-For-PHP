@@ -10,8 +10,6 @@ COPY php.ini-unsecure /usr/local/etc/php/php.ini
 RUN composer global require phpunit/phpcov=^7.0 && \
     pecl install xdebug && docker-php-ext-enable xdebug
 
-RUN yes "no" | pecl install redis && docker-php-ext-enable redis
-
 RUN composer global require laravel/installer
 ADD ./_linux /
 
