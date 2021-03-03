@@ -16,6 +16,9 @@ RUN apt-get update -y && apt-get install -y zlib1g-dev libicu-dev g++ && docker-
 RUN composer global require laravel/installer
 ADD ./_linux /
 
+# enable xdebug coverage
+RUN echo 'xdebug.mode=coverage' >> /usr/local/etc/php/php.ini
+
 # GD https://github.com/docker-library/php/issues/608
 # GD https://github.com/brefphp/bref/pull/415
 # mcrypt https://github.com/docker-library/php/issues/541
