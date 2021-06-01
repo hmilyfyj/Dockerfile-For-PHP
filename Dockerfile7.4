@@ -22,6 +22,7 @@ RUN apt-get clean && apt-get update && apt-get install -y \
 	libwebp-dev \
     libxpm-dev  \
     libonig-dev libzip-dev \
+    git \
     && apt install -y libmagickwand-dev --no-install-recommends \
     && pear update-channels \
 	&& pear upgrade --force \
