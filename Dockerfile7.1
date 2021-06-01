@@ -39,7 +39,7 @@ RUN apt-get update \
         pcntl
 
 RUN docker-php-ext-install sockets
-RUN yes "no" | pecl install swoole-4.5.11 && docker-php-ext-enable swoole
+#RUN yes "no" | pecl install swoole-4.5.11 && docker-php-ext-enable swoole
 RUN yes "no" | pecl install redis && docker-php-ext-enable redis
 
 COPY ./php-config/docker-php-ext-opcache-config.ini $PHP_INI_DIR/conf.d/docker-php-ext-opcache-config.ini
