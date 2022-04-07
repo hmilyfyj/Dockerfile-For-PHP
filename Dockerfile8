@@ -38,10 +38,10 @@ RUN apt-get clean && apt-get update && apt-get install -y \
         zip \
         gd \
         opcache pcntl && \
-        docker-php-ext-enable swoole mcrypt imagick && \
+        docker-php-ext-enable swoole imagick && \
         apt-get clean && \
-        rm -rf /var/lib/apt/lists/* \
-
+        rm -rf /var/lib/apt/lists/*
+        
 RUN yes "no" | pecl install redis && docker-php-ext-enable redis
 RUN yes "" | pecl install mcrypt-1.0.4 && docker-php-ext-enable mcrypt
 
