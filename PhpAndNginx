@@ -1,0 +1,33 @@
+FROM registry.cn-hangzhou.aliyuncs.com/shanjing/php-fpm:8.0
+
+MAINTAINER fengit@outlook.com
+
+# nginx start
+RUN set -ex \
+    && apt-get update \
+    && apt-get install -y nginx \
+    &&  apt-get clean \
+    && rm -rf /var/lib/apt/lists/* \
+RUN rm -f /etc/nginx/sites-available/default
+COPY nginx/enable-php.conf /etc/nginx/enable-php.conf
+COPY nginx/site.conf /etc/nginx/conf.d/site.conf
+#nginx end
+
+COPY entrypoint.sh /etc/entrypoint.sh
+RUN chmod +x /etc/entrypoint.sh
+ENTRYPOINT ["/etc/entrypoint.sh"]
+
+COPY html /var/www/html
+
+RUN mkdir -p /var/log/php \
+    && chown -R www-data:www-data /var/log/php
+RUN sed -i 's/# server_tokens off/server_tokens off/g' /etc/nginx/nginx.conf
+RUN touch /etc/nginx/sites-available/default
+
+STOPSIGNAL SIGQUIT
+EXPOSE 80
+CMD ["php-fpm", "-F"]
+
+# docker build -t php-fpm-nginx:8.0 -f PhpAndNginx .
+# docker tag php-fpm-nginx:8.0 registry.cn-hangzhou.aliyuncs.com/shanjing/php-fpm-nginx:8.0
+# docker push registry.cn-hangzhou.aliyuncs.com/shanjing/php-fpm-nginx:8.0
