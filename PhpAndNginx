@@ -1,4 +1,4 @@
-FROM registry.cn-hangzhou.aliyuncs.com/shanjing/php-fpm:8.0
+FROM registry.cn-hangzhou.aliyuncs.com/shanjing/php-fpm:8.0-thin
 
 MAINTAINER fengit@outlook.com
 
