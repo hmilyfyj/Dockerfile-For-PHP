@@ -1,4 +1,6 @@
-FROM registry.cn-hangzhou.aliyuncs.com/shanjing/php-fpm:8.0
+FROM registry.cn-hangzhou.aliyuncs.com/shanjing/php-fpm:8.0-thin
+
+RUN rm $PHP_INI_DIR/conf.d/docker-php-ext-opcache-config.ini
 
 RUN apt-get update && apt-get install -y --fix-missing  ttf-wqy-zenhei  chromium  && \
     apt-get clean && \
