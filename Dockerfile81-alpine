@@ -50,11 +50,21 @@ COPY php-fpm-production.conf /usr/local/etc/php-fpm.d/www.conf
 ADD ./_linux /
 
 # Timezone and log setup
-RUN mkdir -p /var/log/php-fpm \
-    && export TZ=Asia/Shanghai \
-    && ln -sf /usr/share/zoneinfo/$TZ /etc/localtime \
-    && echo $TZ > /etc/timezone
+# RUN mkdir -p /var/log/php-fpm \
+#     && export TZ=Asia/Shanghai \
+#     && ln -sf /usr/share/zoneinfo/$TZ /etc/localtime \
+#     && echo $TZ > /etc/timezone
 
 COPY ./php-config/docker-php-ext-opcache-config-php72.ini $PHP_INI_DIR/conf.d/docker-php-ext-opcache-config.ini
 
+# enable openssl legacy
+COPY openssl-legacy.cnf /etc/ssl/
+ENV OPENSSL_CONF=/etc/ssl/openssl-legacy.cnf
+RUN openssl list -providers | grep legacy
+
+RUN apk add --no-cache tzdata && export TZ=Asia/Shanghai
+ENV TZ=Asia/Shanghai
+
 CMD ["php-fpm"]
+
+# docker build -f Dockerfile81-alpine --tag 'registry.cn-hangzhou.aliyuncs.com/shanjing/php-fpm:8.1' .

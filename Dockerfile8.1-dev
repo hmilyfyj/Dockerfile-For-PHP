@@ -17,3 +17,4 @@ COPY php.ini-unsecure /usr/local/etc/php/php.ini
 # mcrypt https://github.com/docker-library/php/issues/541
 # oniguruma https://github.com/docker-library/php/issues/880
 # memcached https://github.com/docker-library/php/issues/132
+# docker build -f Dockerfile8.1-dev --tag 'registry.cn-hangzhou.aliyuncs.com/shanjing/php-fpm:8.1-dev' .
