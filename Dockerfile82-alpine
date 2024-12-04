@@ -65,6 +65,8 @@ RUN openssl list -providers | grep legacy
 RUN apk add --no-cache tzdata && export TZ=Asia/Shanghai
 ENV TZ=Asia/Shanghai
 
+RUN mkdir -p /var/log/php-fpm
+
 CMD ["php-fpm"]
 
 # docker build -f Dockerfile81-alpine --tag 'registry.cn-hangzhou.aliyuncs.com/shanjing/php-fpm:8.1' .
