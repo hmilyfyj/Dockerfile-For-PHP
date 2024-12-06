@@ -1,0 +1,15 @@
+FROM registry.cn-hangzhou.aliyuncs.com/shanjing/php-fpm:8.0
+
+# install xlswrite
+RUN sed -i 's/^disable_functions/;disable_functions/' /usr/local/etc/php/php.ini \
+    && pecl install xlswriter && echo 'extension=xlswriter.so' > /usr/local/etc/php/conf.d/docker-php-ext-xlswriter.ini \
+    && sed -i 's/^;disable_functions/disable_functions/' /usr/local/etc/php/php.ini
+
+# 更新 max_input_vars = 10000，应对巨量数据输入。
+RUN echo "max_input_vars = 10000" > /usr/local/etc/php/conf.d/docker-php-ext-max-input.ini
+
+# supervisor
+RUN mkdir -p /etc/supervisor/conf.d
+ADD ./yiwutaro/supervisord.conf /etc/supervisor/supervisord.conf
+
+CMD ["php-fpm"]
