@@ -10,7 +10,9 @@ COPY php.ini-unsecure /usr/local/etc/php/php.ini
 # RUN pecl install xdebug && docker-php-ext-enable xdebug
 
 # install xlswrite
-RUN pecl install xlswriter && echo 'extension=xlswriter.so' > /usr/local/etc/php/conf.d/docker-php-ext-xlswriter.ini
+RUN sed -i 's/^disable_functions/;disable_functions/' /usr/local/etc/php/php.ini \
+    && pecl install xlswriter && echo 'extension=xlswriter.so' > /usr/local/etc/php/conf.d/docker-php-ext-xlswriter.ini \
+    && sed -i 's/^;disable_functions/disable_functions/' /usr/local/etc/php/php.ini
 
 # enable xdebug coverage
 # RUN echo 'xdebug.mode=coverage' >> /usr/local/etc/php/php.ini
