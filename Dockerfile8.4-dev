@@ -1,0 +1,23 @@
+FROM registry.cn-hangzhou.aliyuncs.com/shanjing/php-fpm:8.4
+
+RUN rm $PHP_INI_DIR/conf.d/docker-php-ext-opcache-config.ini
+
+COPY php.ini-unsecure /usr/local/etc/php/php.ini
+
+# RUN apk add --update --no-cache linux-headers
+
+# prepare env for phpunit codecoverage
+# RUN pecl install xdebug && docker-php-ext-enable xdebug
+
+# install xlswrite
+RUN pecl install xlswriter && echo 'extension=xlswriter.so' > /usr/local/etc/php/conf.d/docker-php-ext-xlswriter.ini
+
+# enable xdebug coverage
+# RUN echo 'xdebug.mode=coverage' >> /usr/local/etc/php/php.ini
+
+# GD https://github.com/docker-library/php/issues/608
+# GD https://github.com/brefphp/bref/pull/415
+# mcrypt https://github.com/docker-library/php/issues/541
+# oniguruma https://github.com/docker-library/php/issues/880
+# memcached https://github.com/docker-library/php/issues/132
+# docker build -f Dockerfile8.1-dev --tag 'registry.cn-hangzhou.aliyuncs.com/shanjing/php-fpm:8.1-dev' .

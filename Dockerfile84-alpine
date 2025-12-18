@@ -1,0 +1,72 @@
+FROM php:8.4-fpm-alpine
+
+MAINTAINER fengit@outlook.com
+
+# Install modules
+RUN apk --no-cache update && apk --no-cache upgrade && apk add --no-cache \
+    bash \
+    vim \
+    zip \
+    wget \
+    gcc \
+    build-base \
+    freetype-dev \
+    libjpeg-turbo-dev \
+    libmcrypt-dev \
+    libpng-dev \
+    libwebp-dev \
+    libxpm-dev \
+    oniguruma-dev \
+    libzip-dev \
+    git \
+    imagemagick-dev \
+    openssh-client \
+    supervisor \
+    autoconf
+RUN docker-php-ext-configure gd --enable-gd --with-webp --with-jpeg --with-xpm --with-freetype \
+    && docker-php-ext-configure opcache --enable-opcache \
+    && docker-php-ext-install \
+        bcmath \
+        mbstring \
+        pdo_mysql \
+        mysqli \
+        zip \
+        gd \
+        opcache \
+        pcntl \
+    && pecl install redis imagick \
+    && docker-php-ext-enable redis imagick \
+    && rm -r /tmp/pear
+
+# composer
+RUN curl -sS https://getcomposer.org/installer | php \
+    && mv composer.phar /usr/local/bin/composer \
+    && composer config -g repos.packagist composer https://mirrors.tencent.com/composer/ \
+    && echo "export PATH=$PATH:/root/.composer/vendor/bin" >> ~/.bashrc
+
+# Config files
+COPY php.ini-production /usr/local/etc/php/php.ini
+COPY php-fpm-production.conf /usr/local/etc/php-fpm.d/www.conf
+ADD ./_linux /
+
+# Timezone and log setup
+# RUN mkdir -p /var/log/php-fpm \
+#     && export TZ=Asia/Shanghai \
+#     && ln -sf /usr/share/zoneinfo/$TZ /etc/localtime \
+#     && echo $TZ > /etc/timezone
+
+COPY ./php-config/docker-php-ext-opcache-config-php72.ini $PHP_INI_DIR/conf.d/docker-php-ext-opcache-config.ini
+
+# enable openssl legacy
+COPY openssl-legacy.cnf /etc/ssl/
+ENV OPENSSL_CONF=/etc/ssl/openssl-legacy.cnf
+RUN openssl list -providers | grep legacy
+
+RUN apk add --no-cache tzdata && export TZ=Asia/Shanghai
+ENV TZ=Asia/Shanghai
+
+RUN mkdir -p /var/log/php-fpm
+
+CMD ["php-fpm"]
+
+# docker build -f Dockerfile81-alpine --tag 'registry.cn-hangzhou.aliyuncs.com/shanjing/php-fpm:8.1' .
