@@ -1,4 +1,4 @@
-FROM php:8.4-fpm-alpine
+FROM registry.cn-hangzhou.aliyuncs.com/shanjing/php-fpm@sha256:8dd9aeb50fa5ac29f09df4eb26d07537c756087e5fd0327c56ca3a385caac42c
 
 MAINTAINER fengit@outlook.com
 
