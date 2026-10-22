@@ -1,4 +1,4 @@
-FROM registry.cn-hangzhou.aliyuncs.com/shanjing/php-fpm:8.4
+FROM registry.cn-hangzhou.aliyuncs.com/shanjing/php-fpm:8.4.27-feature-884-20261021@sha256:7a1d272ccf8dc2686d76994d335b97c0eed82815b5c88d7c3fbf8a7e1c786d6d
 
 RUN rm $PHP_INI_DIR/conf.d/docker-php-ext-opcache-config.ini
 
@@ -11,7 +11,7 @@ COPY php.ini-unsecure /usr/local/etc/php/php.ini
 
 # install xlswrite
 RUN sed -i 's/^disable_functions/;disable_functions/' /usr/local/etc/php/php.ini \
-    && pecl install xlswriter && echo 'extension=xlswriter.so' > /usr/local/etc/php/conf.d/docker-php-ext-xlswriter.ini \
+    && pecl install xlswriter-1.5.8 && echo 'extension=xlswriter.so' > /usr/local/etc/php/conf.d/docker-php-ext-xlswriter.ini \
     && sed -i 's/^;disable_functions/disable_functions/' /usr/local/etc/php/php.ini
 
 # enable xdebug coverage
